@@ -1,1 +1,36 @@
-
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript src="function.js"></script>
+    </head>
+    <body>
+        <div class="center">
+            <form>
+                <label for = "armour">Armour rating(optional):</label>
+                <input type = "number" id = "armour" name = "armour"><br><br>
+                <label for = "fire_res">Fire resistance:</label>
+                <input type = "number" id = "fire_res" name = "fire_res" max="90"><br><br>
+                <label for="cold_res">Cold Resistance:</label>
+                <input type = "number" id = "cold_res" name = "cold_res" max="90"><br><br>
+                <label for="lightning_res">Lightning resistance:</label>
+                <input type = "number" id = "lighting_res" name = "lighting_res" max="90"><br><br>
+                <label for="health">Effective HP (optional):</label>
+                <input type="number" id="health" name="health"><br><br>
+                <label for="health">Damaging hit(optional):</label>
+                <input type="number" id="damage_hit" name="damage_hit"><br><br>
+                <label for="Transcendence">Is Transcendence(new jewel keystone) allocated? </label>
+                <input type="checkbox" id = "Transcendence" name="Transcendence"><br><br>
+                <label for="damage_type">Damage type - </label>
+                <select name="damage_type" id = "damage_type">
+                    <option value="Fire">Fire</option>
+                    <option value="Cold">Cold</option>
+                    <option value="Lightning">Lightning</option>
+                    <option value="Physical">Physical</option>
+                </select><br><br>
+                <button  id="calcHealthFromHit" onclick="healthfromhit()">Calculate required effective HP for damaging hit.</button><br><br>
+                <button  id="calcDamageFromHit" onclick="dmgfromhit()">Calculate damage from hit.</button>
+                <div id="toFill"></div>
+            </form>
+        </div>
+    </body>
+</html>
