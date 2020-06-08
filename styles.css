@@ -1,15 +1,21 @@
 .center{
-    margin: auto;
+    position: absolute;
+    height: 50%;
     width: 50%;
-    border: 3px solid #008080;
-    padding: 10px;
+    margin: -100px 0 0 -200px;
+    top: 30%;
+    left: 40%;
     color: #04b3b3;
     font-size: 115%;
 }
 .darkmode{
-    background-color: #292d3e;
+    background-color: #14171f;
 }
 input[type="number"], textarea{
     background-color: #5a638a ;
+}
+h1, h2, a{
+    text-align: center;
+    color: #04b3b3
 }
 /* #008080 - set font color */
