@@ -1,6 +1,15 @@
 .center{
     margin: auto;
     width: 50%;
-    border: 3px solid green;
+    border: 3px solid #008080;
     padding: 10px;
+    color: #04b3b3;
+    font-size: 115%;
 }
+.darkmode{
+    background-color: #292d3e;
+}
+input[type="number"], textarea{
+    background-color: #5a638a ;
+}
+/* #008080 - set font color */

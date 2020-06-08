@@ -1,12 +1,12 @@
 <html>
     <head>
         <link rel="stylesheet" href="styles.css">
-        <script type="text/javascript src="function.js"></script>
+       <script src="function.js"></script>
     </head>
-    <body>
+    <body class="darkmode   ">
         <div class="center">
             <form>
-                <label for = "armour">Armour rating(optional):</label>
+                <label for = "armour">Armour rating:</label>
                 <input type = "number" id = "armour" name = "armour"><br><br>
                 <label for = "fire_res">Fire resistance:</label>
                 <input type = "number" id = "fire_res" name = "fire_res" max="90"><br><br>
@@ -16,7 +16,7 @@
                 <input type = "number" id = "lighting_res" name = "lighting_res" max="90"><br><br>
                 <label for="health">Effective HP (optional):</label>
                 <input type="number" id="health" name="health"><br><br>
-                <label for="health">Damaging hit(optional):</label>
+                <label for="health">Damaging hit:</label>
                 <input type="number" id="damage_hit" name="damage_hit"><br><br>
                 <label for="Transcendence">Is Transcendence(new jewel keystone) allocated? </label>
                 <input type="checkbox" id = "Transcendence" name="Transcendence"><br><br>
@@ -27,8 +27,10 @@
                     <option value="Lightning">Lightning</option>
                     <option value="Physical">Physical</option>
                 </select><br><br>
-                <button  id="calcHealthFromHit" onclick="healthfromhit()">Calculate required effective HP for damaging hit.</button><br><br>
-                <button  id="calcDamageFromHit" onclick="dmgfromhit()">Calculate damage from hit.</button>
+                <form>
+                    <input type="button" value="Calculate health from hit." onclick="healthfromhit()" />
+                    <input type="button" value = "Calculate damage after armour calcs." onclick="dmgfromhit()"/>
+                </form>
                 <div id="toFill"></div>
             </form>
         </div>
