@@ -131,11 +131,11 @@ function dmgfromhit()
     else if(dmg_type == "Cold")
     {
         cold_res = parseFloat(document.getElementById("cold_res").value)
-        final_str = calcReducedDamage(hit_dmg, fire_res, armour, isTranscended, dmg_type)
+        final_str = calcReducedDamage(hit_dmg, cold_res, armour, isTranscended, dmg_type)
     }
     else if(dmg_type == "Lightning"){
         lightning_res = parseFloat(document.getElementById("lightning_res").value)
-        final_str = calcReducedDamage(hit_dmg, fire_res, armour, isTranscended, dmg_type)
+        final_str = calcReducedDamage(hit_dmg, lightning_res, armour, isTranscended, dmg_type)
         
     }
     document.getElementById("toFill").innerHTML = final_str
@@ -156,13 +156,41 @@ function simulate_res_armor(solution, armour, res){
         solution += 1
         dmg_after_res = calculateResDmg(solution, res * 100)
         damage_after_armour = calculateArmorDmgNet(armour, dmg_after_res)
-        // console.log(dmg_after_res, damage_after_armour)
+        console.log(dmg_after_res, damage_after_armour)
         if(damage_after_armour > health)
         {
             break
         }
     }
     return solution
+}
+
+function handleElements(res, health, dmg_type, armour)
+{
+    final_str = ""
+    if(isNaN(res))
+        {
+            final_str = "Enter a valid value for " + dmg_type +" resistance"
+        }
+    else if(isTranscended)
+    {
+        if(isNaN(armour))
+        {
+            final_str = "Enter a valid value for armour"
+        }
+        else
+        {
+            res_dmg = health / (1 - fire_res)
+            solution = simulate_res_armor(res_dmg, armour, fire_res)
+            final_str = "You can take at most " + Math.round(solution - 1).toFixed(2) + " " + dmg_type + " damage."
+        }
+    }
+    else
+    {
+        max_health = health / (1 - fire_res)
+        final_str = "You can take at most " + max_health.toFixed(2) + " " + dmg_type + " damage."
+    }
+    return final_str
 }
 function handle_health_calcs(health, armour, isTranscended, dmg_type)
 {
@@ -180,29 +208,17 @@ function handle_health_calcs(health, armour, isTranscended, dmg_type)
     else if(dmg_type == "Fire")
     {
         fire_res = parseFloat(document.getElementById("fire_res").value) / 100
-        if(isNaN(fire_res))
-        {
-            final_str = "Enter a valid value for fire resistance"
-        }
-        else if(isTranscended){
-            if(isNaN(armour))
-            {
-                final_str = "Enter a valid value for armour"
-            }
-            else
-            {
-                res_dmg = health / (1 - fire_res)
-                solution = simulate_res_armor(res_dmg, armour, fire_res)
-                // solution = res_dmg
-                
-                final_str = "You can take at most " + Math.round(solution).toFixed(2) + " fire damage."
-            }
-        }
-        else
-        {
-            max_health = health / (1 - fire_res)
-            final_str = "You can take at most " + max_health.toFixed(2) + " fire damage."
-        }
+        final_str = handleElements(fire_res, health, dmg_type, armour)
+    }
+    else if(dmg_type == "Cold")
+    {
+        cold_res = parseFloat(document.getElementById("cold_res").value) / 100
+        final_str = handleElements(fire_res, health, dmg_type, armour)
+    }
+    else if(dmg_type == "Lightning")
+    {
+        lightning_res = parseFloat(document.getElementById("lightning_res").value) / 100
+        final_str = handleElements(lightning_res, health, dmg_type, armour)
     }
     return final_str
 }
@@ -229,5 +245,6 @@ function max_dmg_hit()
     {
         final_str = handle_health_calcs(health, armour, isTranscended, dmg_type)
     }
-    document.getElementById("toFill").innerHTML = final_str
-}
+    document.getElementById("toFill").innerHTML = final_str;
+    // Test push
+} 
