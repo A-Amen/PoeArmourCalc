@@ -1,10 +1,10 @@
 function calculateArmorDmgNet(armour, hit_dmg)
 {
-    return Math.max(0.1 * hit_dmg, Math.floor(((10 * hit_dmg * hit_dmg) / (armour + (10 * hit_dmg)))));
+    return Math.max(0.1 * hit_dmg, Math.round(((10 * hit_dmg * hit_dmg) / (armour + (10 * hit_dmg)))));
 }
 function calculateResDmg(hit_dmg, res)
 {
-    return Math.floor((hit_dmg * (1 - (res / 100))))
+    return Math.round((hit_dmg * (1 - (res / 100))))
 }
 
 function calcReducedDamage(hit_dmg, res, armour, isTranscended, type)
@@ -140,4 +140,94 @@ function dmgfromhit()
     }
     document.getElementById("toFill").innerHTML = final_str
     return false;
+}
+
+function hit_from_health(health, armour){
+    discriminant = Math.pow(10 * health, 2) - (4 * 10 * (armour * health * -1))
+    root1 = ((-1 * (-1 * 10 * health)) + Math.sqrt(discriminant)) / (2 * 10)
+    root2 = ((-1 * (-1 * 10 * health)) - Math.sqrt(discriminant)) / (2 * 10)
+    return Math.max(root1, root2)
+    
+}
+
+function simulate_res_armor(solution, armour, res){
+    while(true)
+    {
+        solution += 1
+        dmg_after_res = calculateResDmg(solution, res * 100)
+        damage_after_armour = calculateArmorDmgNet(armour, dmg_after_res)
+        // console.log(dmg_after_res, damage_after_armour)
+        if(damage_after_armour > health)
+        {
+            break
+        }
+    }
+    return solution
+}
+function handle_health_calcs(health, armour, isTranscended, dmg_type)
+{
+    final_str = ""
+    if(dmg_type == "Physical")
+    {
+        if(isNaN(armour)){
+            final_str = "Enter a valid value for armour"
+        }
+        else{
+            solution = hit_from_health(health, armour)
+            final_str = "You can take at most " + Math.round(solution).toFixed(2) + " " + dmg_type + " damage."
+        }
+    }
+    else if(dmg_type == "Fire")
+    {
+        fire_res = parseFloat(document.getElementById("fire_res").value) / 100
+        if(isNaN(fire_res))
+        {
+            final_str = "Enter a valid value for fire resistance"
+        }
+        else if(isTranscended){
+            if(isNaN(armour))
+            {
+                final_str = "Enter a valid value for armour"
+            }
+            else
+            {
+                res_dmg = health / (1 - fire_res)
+                solution = simulate_res_armor(res_dmg, armour, fire_res)
+                // solution = res_dmg
+                
+                final_str = "You can take at most " + Math.round(solution).toFixed(2) + " fire damage."
+            }
+        }
+        else
+        {
+            max_health = health / (1 - fire_res)
+            final_str = "You can take at most " + max_health.toFixed(2) + " fire damage."
+        }
+    }
+    return final_str
+}
+
+function max_dmg_hit()
+{
+    // alert("in max_dmg_hit")
+    health = parseFloat(document.getElementById("health").value);
+    armour = parseFloat(document.getElementById("armour").value);
+    isTranscended = document.getElementById("Transcendence").checked;
+    dmg_choices = document.getElementById("damage_type");
+    dmg_type = dmg_choices.options[dmg_choices.selectedIndex].value;
+    final_str = ""
+    if(isNaN(health))
+    {
+        final_str += "Please enter a valid value for health"
+    }
+    else if(isTranscended && dmg_type == "Physical")
+    {
+        final_str += "You can take at most " + health + " "
+        final_str += dmg_type + " damage."
+    }
+    else
+    {
+        final_str = handle_health_calcs(health, armour, isTranscended, dmg_type)
+    }
+    document.getElementById("toFill").innerHTML = final_str
 }
