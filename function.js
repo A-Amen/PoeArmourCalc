@@ -143,25 +143,12 @@ function dmgfromhit()
 }
 
 function hit_from_health(health, armour){
-    discriminant = Math.pow(10 * health, 2) - (4 * 10 * (armour * health * -1))
-    root1 = ((-1 * (-1 * 10 * health)) + Math.sqrt(discriminant)) / (2 * 10)
-    root2 = ((-1 * (-1 * 10 * health)) - Math.sqrt(discriminant)) / (2 * 10)
-    return Math.max(root1, root2)
-    
-}
-
-function simulate_res_armor(solution, armour, res){
-    while(true)
-    {
-        solution += 1
-        dmg_after_res = calculateResDmg(solution, res * 100)
-        damage_after_armour = calculateArmorDmgNet(armour, dmg_after_res)
-        console.log(dmg_after_res, damage_after_armour)
-        if(damage_after_armour > health)
-        {
-            break
-        }
-    }
+    // Math to solve the quadratic equation.
+    // discriminant = Math.pow(10 * health, 2) - (4 * 10 * (armour * health * -1))
+    // root1 = ((-1 * (-1 * 10 * health)) + Math.sqrt(discriminant)) / (2 * 10)
+    // root2 = ((-1 * (-1 * 10 * health)) - Math.sqrt(discriminant)) / (2 * 10)
+    // The above reduces in its simplest form below.
+    solution = (1/10) * ( (5*health) + (Math.sqrt(5)*Math.sqrt( (5*health*health) + (2*armour*health))))
     return solution
 }
 
@@ -180,14 +167,14 @@ function handleElements(res, health, dmg_type, armour)
         }
         else
         {
-            res_dmg = health / (1 - fire_res)
-            solution = simulate_res_armor(res_dmg, armour, fire_res)
-            final_str = "You can take at most " + Math.round(solution - 1).toFixed(2) + " " + dmg_type + " damage."
+            solution = hit_from_health(health, armour)
+            solution = solution / (1 - res)
+            final_str = "You can take at most " + Math.round(solution).toFixed(2) + " " + dmg_type + " damage."
         }
     }
     else
     {
-        max_health = health / (1 - fire_res)
+        max_health = health / (1 - res)
         final_str = "You can take at most " + max_health.toFixed(2) + " " + dmg_type + " damage."
     }
     return final_str
