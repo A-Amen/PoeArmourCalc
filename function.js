@@ -1,6 +1,10 @@
 function calculateArmorDmgNet(armour, hit_dmg)
 {
-    return Math.max(0.1 * hit_dmg, Math.round(((10 * hit_dmg * hit_dmg) / (armour + (10 * hit_dmg)))));
+    isImbGuard = document.getElementById("imb_guard").checked
+    return Math.max((isImbGuard?0.5*hit_dmg:0.1*hit_dmg), 
+                    Math.round(
+                        ((10 * hit_dmg * hit_dmg) / ( (isImbGuard?2*armour:armour) + (10 * hit_dmg)))
+                    ));
 }
 function calculateResDmg(hit_dmg, res)
 {
