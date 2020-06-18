@@ -1,13 +1,6 @@
-/* .center{
-    /* position: absolute;
-    height: 50%;
-    width: 50%;
-    margin: -100px 0 0 -200px;
-    top: 30%;
-    left: 40%;
-    color: #04b3b3;
-    font-size: 115%; 
-} */
+input[type="number"]{
+    width: 12%;
+}
 .darkmode{
     background-color: #14171f;
     position: absolute;
