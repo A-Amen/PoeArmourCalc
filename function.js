@@ -192,6 +192,11 @@ function handle_health_calcs(health, armour, isTranscended, dmg_type)
             final_str = "Enter a valid value for armour"
         }
         else{
+            isImbGuard = document.getElementById('imb_guard')
+            if(isImbGuard)
+            {
+                armour *= 2
+            }
             solution = hit_from_health(health, armour)
             final_str = "You can take at most " + Math.round(solution).toFixed(2) + " " + dmg_type + " damage."
         }
